@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+  name           String
+  email          String    @unique
+  password       String
+  emailVerified  DateTime?
+  role           Role      @default(USER)
+
+  // Relaciones de NextAuth
+  accounts       Account[]
+  sessions       Session[]
+
+  // Relaciones internas
+  attempts       Attempt[]
+}
+
+model Category {
+  id       Int     @id @default(autoincrement())
+  name     String  @unique
+  quizzes  Quiz[]
+}
+
+model Quiz {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String
+  category    Category   @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  createdAt   DateTime   @default(now())
+
+  questions   Question[]
+  attempts    Attempt[]
+}
+
+model Question {
+  id        Int        @id @default(autoincrement())
+  quiz      Quiz       @relation(fields: [quizId], references: [id])
+  quizId    Int
+  text      String
+  order     Int
+
+  options   Option[]
+  answers   Answer[]
+}
+
+model Option {
+  id                Int       @id @default(autoincrement())
+  question          Question  @relation(fields: [questionId], references: [id])
+  questionId        Int
+  text              String
+  isCorrect         Boolean
+
+  selectedByAnswers Answer[]
+}
+
+model Attempt {
+  id        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  quiz      Quiz      @relation(fields: [quizId], references: [id])
+  quizId    Int
+  score     Float
+  createdAt DateTime  @default(now())
+
+  answers   Answer[]
+}
+
+model Answer {
+  id                Int       @id @default(autoincrement())
+  attempt           Attempt   @relation(fields: [attemptId], references: [id])
+  attemptId         Int
+  question          Question  @relation(fields: [questionId], references: [id])
+  questionId        Int
+  selectedOption    Option    @relation(fields: [selectedOptionId], references: [id])
+  selectedOptionId  Int
+}
+
+// ---------- NextAuth adapter models ----------
+
+model Account {
+  id                 Int     @id @default(autoincrement())
+  userId             Int
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           Int      @id @default(autoincrement())
+  sessionToken String   @unique
+  userId       Int
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+// ---------- Enum ----------
+
+enum Role {
+  USER
+  ADMIN
+}
