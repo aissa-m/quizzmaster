@@ -54,7 +54,11 @@ export default function PlayQuiz({ quizId }: PlayQuizProps) {
   }, [timeStart, finished]);
 
   if (!quiz) {
-    return <div>Cargando quiz...</div>;
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-900 to-indigo-950 text-white">
+        <p className="text-xl font-semibold animate-pulse">Cargando quiz...</p>
+      </main>
+    );
   }
 
   if (finished) {
@@ -68,7 +72,7 @@ export default function PlayQuiz({ quizId }: PlayQuizProps) {
           Preguntas respondidas: <span className="font-semibold">{answers.length} / {quiz.questions.length}</span>
         </p>
         <button
-          className="mt-6 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700"
+          className="cursor-pointer mt-6 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700"
           onClick={() => router.push('/quizzes')}
         >
           Volver a quizzes
@@ -119,13 +123,21 @@ export default function PlayQuiz({ quizId }: PlayQuizProps) {
           <span>Pregunta {current + 1} / {quiz.questions.length}</span>
           <span className="float-right">Tiempo: {timeElapsed}s</span>
         </div>
-        <div className="bg-white/10 p-6 rounded-xl mb-6">
-          <p className="mb-4">{question.text}</p>
+
+        <div className="bg-white/10 p-6 rounded-xl mb-6 shadow-lg backdrop-blur-md border border-white/10">
+          <p className="mb-4 text-lg font-medium">{question.text}</p>
           <div className="grid gap-4">
             {question.options.map((opt) => (
               <button
                 key={opt.id}
-                className={`w-full text-left p-3 border rounded ${selected === opt.id ? 'border-blue-400 bg-white/20' : 'border-transparent'}`}
+                className={`
+          w-full text-left p-4 rounded-lg transition-all duration-200 ease-in-out
+          cursor-pointer border
+          ${selected === opt.id
+                    ? 'bg-blue-500/20 border-blue-400 ring-2 ring-blue-400'
+                    : 'bg-white/5 hover:bg-white/10 hover:ring-1 hover:ring-white/30 border-white/10'
+                  }
+        `}
                 onClick={() => handleOptionClick(opt.id)}
               >
                 {opt.text}
@@ -134,7 +146,7 @@ export default function PlayQuiz({ quizId }: PlayQuizProps) {
           </div>
         </div>
         <button
-          className={`px-5 py-2 rounded ${selected !== null ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-500 cursor-not-allowed'}`}
+          className={`cursor-pointer px-5 py-2 rounded ${selected !== null ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-500 cursor-not-allowed'}`}
           disabled={selected === null}
           onClick={handleNext}
         >

@@ -1,10 +1,28 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+
+interface Quiz {
+  id: number;
+  title: string;
+  description: string;
+  category: { name: string };
+}
 
 export default function HomePage() {
   const { data: session } = useSession();
   const isLoggedIn = !!session;
+
+  const [featuredQuizzes, setFeaturedQuizzes] = useState<Quiz[]>([]);
+
+  useEffect(() => {
+    fetch('/api/public/featured-quizzes')
+      .then((res) => res.json())
+      .then((data) => setFeaturedQuizzes(data))
+      .catch((err) => console.error('Error cargando quizzes destacados', err));
+  }, []);
+
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-sky-900 to-indigo-950 text-white">
@@ -28,21 +46,25 @@ export default function HomePage() {
       <section className="py-16 px-6 max-w-6xl mx-auto">
         <h3 className="text-3xl font-bold mb-6">🔥 Quizzes Destacados</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Reemplazar con fetch de quizzes reales */}
-          {['Historia', 'Cultura general', 'Tecnología'].map((titulo, i) => (
-            <div key={i} className="rounded-xl p-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-xl">
-              <h4 className="text-xl font-semibold mb-2">{titulo}</h4>
-              <p className="text-sm text-white/80 mb-4">
-                ¡Pon a prueba tus conocimientos en {titulo.toLowerCase()}!
-              </p>
+          {featuredQuizzes.map((quiz) => (
+            <div
+              key={quiz.id}
+              className="rounded-xl p-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-xl flex flex-col"
+            >
+              <h4 className="text-xl font-semibold mb-2">{quiz.title}</h4>
+              <p className="text-sm text-white/80 mb-4 line-clamp-3">{quiz.description}</p>
+              <span className="text-xs text-white/50 mb-4">Categoría: {quiz.category.name}</span>
               <a
-                href={"/play/"+ ++i} 
-                className="inline-block mt-auto text-sm font-medium text-blue-300 hover:text-white transition"
+                href={`/play/${quiz.id}`}
+                className="mt-auto text-sm font-medium text-blue-300 hover:text-white transition"
               >
                 Jugar →
               </a>
             </div>
           ))}
+          {featuredQuizzes.length === 0 && (
+            <p className="col-span-3 text-white/70">No hay quizzes destacados disponibles.</p>
+          )}
         </div>
       </section>
 
@@ -82,7 +104,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Contacto / Footer */}
+      {/* Contacto */}
       <section id="contact" className="py-20 px-6 bg-sky-950/60 border-y border-white/10">
         <div className="max-w-4xl mx-auto text-center">
           <h3 className="text-3xl font-bold mb-4">📬 ¿Tienes alguna pregunta?</h3>

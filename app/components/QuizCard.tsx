@@ -29,11 +29,12 @@ export default function QuizCard({ quiz }: QuizCardProps) {
   return (
     <div
       onClick={handleClick}
-      className="cursor-pointer block bg-white/10 border border-white/10 rounded-2xl p-6 hover:bg-white/20 transition backdrop-blur-sm shadow-xl"
+      className="cursor-pointer select-none rounded-2xl bg-white/10 border border-white/10 p-6 backdrop-blur-md shadow-md transition-all duration-300 ease-in-out
+        hover:bg-white/20 hover:shadow-2xl hover:ring-2 hover:ring-emerald-400/60 active:scale-95"
     >
-      <h2 className="text-xl font-semibold mb-2">{quiz.title}</h2>
-      <p className="text-sm text-white/70 mb-2">{quiz.description}</p>
-      <span className="inline-block bg-blue-800/40 text-xs px-2 py-1 rounded">
+      <h2 className="text-xl font-semibold mb-2 text-white">{quiz.title}</h2>
+      <p className="text-sm text-white/70 mb-4 min-h-[48px]">{quiz.description}</p>
+      <span className="inline-block bg-emerald-500/20 text-emerald-100 text-xs px-2 py-1 rounded-full border border-emerald-300/30">
         {quiz.category.name}
       </span>
     </div>
