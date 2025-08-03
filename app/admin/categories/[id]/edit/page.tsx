@@ -2,11 +2,14 @@ import prisma from '@/app/lib/prisma';
 import CategoryForm from '../../CategoryForm';
 import DeleteCategoryButton from '../../DeleteCategoryButton';
 
-interface Props {
-  params: { id: string };
+interface PageProps {
+  params: {
+    id: string;
+  };
 }
 
-export default async function EditCategoryPage({ params }: Props) {
+
+export default async function EditCategoryPage({ params }: PageProps) {
   const id = Number(params.id);
   const category = await prisma.category.findUnique({ where: { id } });
 

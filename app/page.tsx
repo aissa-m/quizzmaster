@@ -42,6 +42,16 @@ export default function HomePage() {
         </section>
       )}
 
+      {/* Propósito de la web */}
+      <section className="py-16 px-6">
+        <div className="max-w-5xl mx-auto text-center">
+          <h3 className="text-3xl font-bold mb-6">🧠 ¿Para qué sirve QuizzMaster?</h3>
+          <p className="text-white/80 text-lg leading-relaxed max-w-3xl mx-auto">
+            QuizzMaster es una plataforma interactiva diseñada para ayudarte a <span className="text-emerald-300 font-semibold">aprender y reforzar tus conocimientos</span> en múltiples áreas como historia, ciencia, cultura general y más. A través de quizzes dinámicos y puntuación gamificada, puedes <span className="text-emerald-300 font-semibold">poner a prueba lo que sabes</span> mientras te diviertes y compites con otros.
+          </p>
+        </div>
+      </section>
+
       {/* Quizzes destacados */}
       <section className="py-16 px-6 max-w-6xl mx-auto">
         <h3 className="text-3xl font-bold mb-6">🔥 Quizzes Destacados</h3>
