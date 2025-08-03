@@ -8,7 +8,6 @@ interface PageProps {
   };
 }
 
-
 export default async function EditCategoryPage({ params }: PageProps) {
   const id = Number(params.id);
   const category = await prisma.category.findUnique({ where: { id } });
