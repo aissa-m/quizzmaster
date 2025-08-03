@@ -31,7 +31,7 @@ export default function LoginPage() {
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center px-6 py-8">
+    <section className="bg-gradient-to-br from-sky-900 to-indigo-950 min-h-screen flex items-center justify-center px-6 py-8">
       <div className="w-full max-w-md bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700">
         <div className="p-6 space-y-6">
           <div className="flex justify-center mb-4">

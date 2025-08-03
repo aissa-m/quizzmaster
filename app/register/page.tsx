@@ -32,7 +32,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center px-4">
+    <section className="bg-gradient-to-br from-sky-900 to-indigo-950 min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white/30 dark:bg-gray-800/40 backdrop-blur-md rounded-xl shadow-xl border border-white/20 p-8">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Crear cuenta</h1>

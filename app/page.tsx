@@ -1,141 +1,122 @@
-'use client'
+'use client';
 
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
 
 export default function HomePage() {
   const { data: session } = useSession();
+  const isLoggedIn = !!session;
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-[#0f172a] to-[#1e293b] text-white relative">
-      {/* Navbar */}
-      <header className="absolute top-0 left-0 w-full z-50 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center backdrop-blur bg-white/5 rounded-b-xl">
-          <h1 className="text-xl font-bold">QuizMaster</h1>
-          <nav className="flex space-x-6 text-sm">
-            <Link href="#features">Características</Link>
-            <Link href="#screenshots">Capturas</Link>
-            <Link href="#about">Sobre Nosotros</Link>
-            {session ? (
-              <Link href="/dashboard" className="text-green-400 font-semibold">
-                Ir al panel
-              </Link>
-            ) : (
-              <>
-                <Link href="/login">Iniciar sesión</Link>
-                <Link
-                  href="/register"
-                  className="bg-white text-black px-4 py-1 rounded-full hover:bg-gray-200"
-                >
-                  Registrarse
-                </Link>
-              </>
-            )}
-          </nav>
-        </div>
-      </header>
-
-      {/* Hero */}
-      <section className="pt-36 pb-24 px-6 max-w-6xl mx-auto text-center">
-        <motion.h1
-          className="text-5xl font-extrabold mb-6"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          Aprende jugando. Mejora practicando.
-        </motion.h1>
-        <motion.p
-          className="text-lg text-gray-300 mb-10"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          Una plataforma de aprendizaje basada en quizzes inteligentes para mejorar tus conocimientos y evaluar tu progreso.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.6 }}
-        >
-          <Link
+    <main className="min-h-screen bg-gradient-to-br from-sky-900 to-indigo-950 text-white">
+      {/* Hero / Intro */}
+      {!isLoggedIn && (
+        <section className="text-center py-20 px-6">
+          <h2 className="text-4xl font-bold mb-4">Aprende jugando con quizzes interactivos 🎯</h2>
+          <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
+            Regístrate gratis y comienza a practicar tus conocimientos en historia, ciencia, cultura y más.
+          </p>
+          <a
             href="/register"
-            className="bg-white text-black font-semibold px-6 py-3 rounded-full hover:bg-gray-200"
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full font-semibold text-white transition"
           >
-            ¡Empieza gratis ahora!
-          </Link>
-        </motion.div>
-      </section>
+            🚀 Empezar Gratis
+          </a>
+        </section>
+      )}
 
-      {/* Features */}
-      <section id="features" className="py-24 px-6 max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-8 text-center">
-          {[
-            {
-              title: '🧠 Quizzes personalizados',
-              desc: 'Aprende con quizzes adaptados a tu nivel y temas favoritos.',
-            },
-            {
-              title: '📈 Estadísticas de progreso',
-              desc: 'Visualiza tu evolución con gráficos e historial de intentos.',
-            },
-            {
-              title: '🔒 Roles y acceso seguro',
-              desc: 'Sistema de login con control de roles para usuarios y admins.',
-            },
-          ].map(({ title, desc }, i) => (
-            <motion.div
-              key={i}
-              className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-xl"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.2 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-semibold mb-2">{title}</h3>
-              <p className="text-gray-300">{desc}</p>
-            </motion.div>
+      {/* Quizzes destacados */}
+      <section className="py-16 px-6 max-w-6xl mx-auto">
+        <h3 className="text-3xl font-bold mb-6">🔥 Quizzes Destacados</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Reemplazar con fetch de quizzes reales */}
+          {['Historia', 'Cultura general', 'Tecnología'].map((titulo, i) => (
+            <div key={i} className="rounded-xl p-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-xl">
+              <h4 className="text-xl font-semibold mb-2">{titulo}</h4>
+              <p className="text-sm text-white/80 mb-4">
+                ¡Pon a prueba tus conocimientos en {titulo.toLowerCase()}!
+              </p>
+              <a
+                href={"/play/"+ ++i} 
+                className="inline-block mt-auto text-sm font-medium text-blue-300 hover:text-white transition"
+              >
+                Jugar →
+              </a>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* Screenshots */}
-      <section id="screenshots" className="py-24 px-6 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-10">Capturas del sistema</h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          {[1, 2].map((img) => (
-            <motion.div
-              key={img}
-              className="overflow-hidden rounded-xl border border-white/10"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Image
-                src={`/screenshots/screenshot${img}.png`}
-                alt={`Screenshot ${img}`}
-                width={800}
-                height={600}
-                className="w-full h-auto object-cover"
-              />
-            </motion.div>
-          ))}
+      {/* Cómo funciona */}
+      <section id="como-funciona" className="py-16 px-6 bg-sky-950/40 border-y border-white/10">
+        <div className="max-w-4xl mx-auto text-center">
+          <h3 className="text-3xl font-bold mb-6">🧩 ¿Cómo funciona?</h3>
+          <div className="grid gap-6 md:grid-cols-3 text-left">
+            <div>
+              <h4 className="font-semibold mb-2">1. Crea una cuenta</h4>
+              <p className="text-sm text-white/80">Regístrate en segundos para acceder a todos los quizzes.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">2. Elige un quiz</h4>
+              <p className="text-sm text-white/80">Explora categorías y selecciona el quiz que más te interese.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">3. Responde y aprende</h4>
+              <p className="text-sm text-white/80">Responde preguntas, acumula puntos y mejora tus estadísticas.</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* About */}
-      <section id="about" className="py-24 px-6 max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-6">¿Quiénes somos?</h2>
-        <p className="text-gray-300">
-          QuizMaster es un proyecto creado por desarrolladores apasionados por la educación. Buscamos que aprender sea simple, visual y efectivo. Nuestra plataforma combina tecnología moderna con métodos de evaluación efectivos.
-        </p>
+      {/* Testimonios o info adicional */}
+      <section className="py-16 px-6 max-w-5xl mx-auto">
+        <h3 className="text-3xl font-bold mb-6 text-center">💬 Lo que dicen nuestros usuarios</h3>
+        <div className="grid gap-6 md:grid-cols-2">
+          <blockquote className="bg-white/10 p-6 rounded-xl border border-white/20 backdrop-blur">
+            <p className="text-sm italic mb-2">"Me encanta la forma en que puedo practicar temas de forma divertida y rápida."</p>
+            <footer className="text-xs text-white/60">– Marta, estudiante de Historia</footer>
+          </blockquote>
+          <blockquote className="bg-white/10 p-6 rounded-xl border border-white/20 backdrop-blur">
+            <p className="text-sm italic mb-2">"Desde que uso QuizZone he mejorado mis resultados en clase."</p>
+            <footer className="text-xs text-white/60">– Pablo, estudiante de 2º de ESO</footer>
+          </blockquote>
+        </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-white/10 py-10 text-center text-gray-400 text-sm">
-        © {new Date().getFullYear()} QuizMaster. Todos los derechos reservados.
-      </footer>
+      {/* Contacto / Footer */}
+      <section id="contact" className="py-20 px-6 bg-sky-950/60 border-y border-white/10">
+        <div className="max-w-4xl mx-auto text-center">
+          <h3 className="text-3xl font-bold mb-4">📬 ¿Tienes alguna pregunta?</h3>
+          <p className="text-white/70 mb-10">Rellena el formulario y te responderemos lo antes posible.</p>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              alert("Mensaje enviado (simulado)");
+            }}
+            className="grid gap-6 md:grid-cols-2 text-left"
+          >
+            <div className="md:col-span-1">
+              <label className="block text-sm mb-1">Nombre</label>
+              <input type="text" required className="w-full px-4 py-2 rounded-md bg-blue-900/40 border border-white/20" />
+            </div>
+            <div className="md:col-span-1">
+              <label className="block text-sm mb-1">Email</label>
+              <input type="email" required className="w-full px-4 py-2 rounded-md bg-blue-900/40 border border-white/20" />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-sm mb-1">Mensaje</label>
+              <textarea rows={4} required className="w-full px-4 py-2 rounded-md bg-blue-900/40 border border-white/20" />
+            </div>
+            <div className="md:col-span-2 text-right">
+              <button
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-md font-medium transition"
+              >
+                Enviar mensaje
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
     </main>
   );
 }
