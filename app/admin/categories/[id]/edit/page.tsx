@@ -1,14 +1,8 @@
-// app/admin/categories/[id]/edit/page.tsx
-
 import prisma from '@/app/lib/prisma';
 import CategoryForm from '../../CategoryForm';
 import DeleteCategoryButton from '../../DeleteCategoryButton';
 
-export default async function Page({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function Page({ params }: { params: { id: string } }) {
   const id = Number(params.id);
   const category = await prisma.category.findUnique({ where: { id } });
 
