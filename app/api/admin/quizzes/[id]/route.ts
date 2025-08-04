@@ -1,9 +1,14 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/app/lib/prisma';
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(
+  req: Request,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params;
+  const numericId = Number(id);
+
   try {
-    const id = Number(params.id);
     const body = await req.json();
     const { title, description, categoryId } = body;
 
@@ -12,7 +17,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     }
 
     const updated = await prisma.quiz.update({
-      where: { id },
+      where: { id: numericId },
       data: { title, description, categoryId },
     });
 
@@ -23,15 +28,19 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(
+  _req: Request,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params;
+  const numericId = Number(id);
+
   try {
-    const id = Number(params.id);
-
-    await prisma.quiz.delete({ where: { id } });
-
+    await prisma.quiz.delete({ where: { id: numericId } });
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('DELETE /quizzes/:id error:', error);
     return NextResponse.json({ error: 'Error al borrar quiz' }, { status: 500 });
   }
 }
+

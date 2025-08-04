@@ -1,17 +1,17 @@
 import prisma from "@/app/lib/prisma";
 import BotonBorrar from "./BotonBorrar";
 
-interface SearchParams {
-  searchParams: {
+export default async function AdminQuestionsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
     quizId?: string;
     category?: string;
     search?: string;
     orderBy?: string;
-  };
-}
-
-export default async function AdminQuestionsPage({ searchParams }: SearchParams) {
-  const { quizId, category, search, orderBy } = searchParams;
+  }>;
+}) {
+  const { quizId, category, search, orderBy } = await searchParams;
 
   const quizzes = await prisma.quiz.findMany({
     include: { category: true },

@@ -1,10 +1,8 @@
+// app/play/[id]/page.tsx
+import { type InferGetServerSidePropsType } from "next";
 import PlayQuiz from "@/app/components/PlayQuiz";
 
-interface PlayPageProps {
-  params: { id: string };
-}
-
-export default function PlayPage({ params }: PlayPageProps) {
+export default function PlayPage({ params }: any) {
   const quizId = parseInt(params.id, 10);
   return <PlayQuiz quizId={quizId} />;
 }

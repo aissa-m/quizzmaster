@@ -1,16 +1,22 @@
+import { type Metadata } from 'next';
 import prisma from '@/app/lib/prisma';
 import QuizForm from '../../QuizForm';
+import { JSX } from 'react';
 
-interface Props {
-  params: { id: string };
-}
+// Tipado compatible con Next.js 15
+export default async function EditQuizPage({
+  params,
+}: {
+  params: Promise<{ id: number }>;
+}): Promise<JSX.Element> {
+  const { id } = await params;
 
-export default async function EditQuizPage({ params }: Props) {
-  const id = Number(params.id);
   const quiz = await prisma.quiz.findUnique({ where: { id } });
   const categories = await prisma.category.findMany({ orderBy: { name: 'asc' } });
 
-  if (!quiz) return <p className="text-red-400">Quiz no encontrado</p>;
+  if (!quiz) {
+    return <p className="text-red-400">Quiz no encontrado</p>;
+  }
 
   return (
     <div className="max-w-2xl mx-auto">
