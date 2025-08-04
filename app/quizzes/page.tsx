@@ -1,3 +1,4 @@
+// app/quizzes/page.tsx
 import QuizCard from "../components/QuizCard";
 
 interface Quiz {
