@@ -1,5 +1,6 @@
 // app/quizzes/page.tsx
 import QuizCard from "../components/QuizCard";
+import { headers } from 'next/headers';
 
 interface Quiz {
   id: number;
@@ -11,9 +12,16 @@ interface Quiz {
 }
 
 export default async function QuizzesPage() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || ''}/api/public/quizzes`, {
+  const host = (await headers()).get('host');
+  const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+  const res = await fetch(`${protocol}://${host}/api/public/quizzes`, {
     cache: 'no-store',
   });
+
+  if (!res.ok) {
+    console.error("Error al obtener los quizzes:", res.statusText);
+    return <div>Error cargando los quizzes</div>;
+  }
 
   const quizzes: Quiz[] = await res.json();
 
