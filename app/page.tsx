@@ -19,8 +19,18 @@ export default function HomePage() {
   useEffect(() => {
     fetch('/api/public/featured-quizzes')
       .then((res) => res.json())
-      .then((data) => setFeaturedQuizzes(data))
-      .catch((err) => console.error('Error cargando quizzes destacados', err));
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setFeaturedQuizzes(data)
+        } else {
+          console.error('Respuesta inesperada de featured-quizzes:', data)
+          setFeaturedQuizzes([]) // o puedes mostrar un mensaje de error
+        }
+      })
+      .catch((err) => {
+        console.error('Error cargando quizzes destacados', err)
+        setFeaturedQuizzes([]) // previene crash si fetch falla
+      });
   }, []);
 
 
@@ -56,7 +66,7 @@ export default function HomePage() {
       <section className="py-16 px-6 max-w-6xl mx-auto">
         <h3 className="text-3xl font-bold mb-6">🔥 Quizzes Destacados</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {featuredQuizzes.map((quiz) => (
+          {Array.isArray(featuredQuizzes) && featuredQuizzes.map((quiz) => (
             <div
               key={quiz.id}
               className="rounded-xl p-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-xl flex flex-col"
