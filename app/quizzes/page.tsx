@@ -11,9 +11,10 @@ interface Quiz {
 }
 
 export default async function QuizzesPage() {
-  const res = await fetch("https://quizzmaster-lsjbdck86-aissas-projects-b105c2da.vercel.app/api/public/quizzes", {
-    cache: "no-store",
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || ''}/api/public/quizzes`, {
+    cache: 'no-store',
   });
+
   const quizzes: Quiz[] = await res.json();
 
   return (

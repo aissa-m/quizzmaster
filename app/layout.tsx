@@ -13,11 +13,11 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
-      <body className={`${inter.className} bg-gradient-to-br from-sky-900 to-indigo-950 text-white`}>
+    <html lang="es" className={inter.className}>
+      <body className="bg-gradient-to-br from-sky-900 to-indigo-950 text-white">
         <Providers>
           <NavBar />
-          <div className="pt-20 min-h-screen bg-gradient-to-br from-sky-900 to-indigo-950"> {/* deja espacio para el navbar */}
+          <div className="pt-20 min-h-screen bg-gradient-to-br from-sky-900 to-indigo-950">
             {children}
           </div>
           <Footer />
@@ -26,3 +26,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+
