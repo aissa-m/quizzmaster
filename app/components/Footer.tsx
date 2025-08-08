@@ -3,7 +3,9 @@ export default function Footer() {
     <footer className="py-10 px-6 bg-sky-950/80 border-t border-white/10 text-sm text-white/60">
       <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
         <div>
-          <h4 className="text-lg font-semibold text-white">QuizZone</h4>
+
+          <img width="120" src="/logos/logo_white.png" alt="" />
+
           <p className="text-xs mt-2 text-white/50">
             Plataforma educativa para aprender y divertirte con quizzes interactivos.
           </p>
@@ -20,13 +22,25 @@ export default function Footer() {
         </div>
         <div>
           <h4 className="text-sm font-semibold text-white mb-2">Síguenos</h4>
-          <ul className="space-y-1">
-            <li><a href="#" className="hover:underline">Instagram</a></li>
-            <li><a href="#" className="hover:underline">Twitter</a></li>
-            <li><a href="#" className="hover:underline">LinkedIn</a></li>
+          <ul className="flex space-x-4">
+            <li>
+              <a href="#" className="hover:underline">
+                <img width="30" src="/social/instagram.png" alt="" />
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:underline">
+                <img width="30" src="/social/x.png" alt="" />
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:underline">
+                <img width="30" src="/social/linkedin.png" alt="" />
+              </a>
+            </li>
           </ul>
           <p className="mt-4 text-xs text-white/50">
-            © {new Date().getFullYear()} QuizZone · <a href="#" className="hover:underline">Política de privacidad</a>
+            © {new Date().getFullYear()} QuizzMaster · <a href="#" className="hover:underline">Política de privacidad</a>
           </p>
         </div>
       </div>

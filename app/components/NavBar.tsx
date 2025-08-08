@@ -17,10 +17,9 @@ export default function Navbar() {
       <nav className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center space-x-6">
           <Link href="/" className="text-xl font-bold text-white">
-            QuizzMaster
+            <img width="60" src="favicon.ico" alt="" />
           </Link>
           <Link href="/quizzes" className={isActive("/quizzes")}>Quizzes</Link>
-          {/* <Link href="#contact" className={isActive("#contact")}>Contacto</Link> */}
         </div>
 
         <div className="flex items-center space-x-4">
